@@ -91,8 +91,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100svh - 94px);
-  padding: clamp(3rem, 8vw, 6rem) 0 clamp(2.5rem, 6vw, 4rem);
+  min-height: 520px;
+  padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.75rem, 4vw, 3rem);
   text-align: center;
 }
 
@@ -395,7 +395,7 @@ h3 {
   }
 
   .hero {
-    min-height: auto;
+    min-height: 420px;
   }
 
   .asset-card.wide {
