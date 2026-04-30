@@ -91,7 +91,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 520px;
+  min-height: 540px;
   padding: clamp(2rem, 5vw, 4rem) 0 clamp(1.75rem, 4vw, 3rem);
   text-align: center;
 }
@@ -187,6 +187,153 @@ h3 {
 
 .button:hover {
   transform: translateY(-1px);
+}
+
+.trade-motion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(420px, 100%);
+  min-height: 168px;
+  margin: 1.5rem auto 0;
+  isolation: isolate;
+  transform: perspective(800px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
+  transition: transform 180ms ease;
+}
+
+.motion-ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(23, 63, 143, 0.14);
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, transparent 49%, rgba(47, 156, 66, 0.22) 50%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, rgba(245, 130, 0, 0.18) 50%, transparent 51%);
+  box-shadow: inset 0 0 38px rgba(23, 63, 143, 0.07);
+  animation: ringSpin 16s linear infinite;
+}
+
+.motion-node {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  min-height: 34px;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.88rem;
+  font-weight: 900;
+  box-shadow: 0 10px 22px rgba(9, 34, 81, 0.18);
+  transform: var(--node-transform, none);
+}
+
+.node-sell {
+  top: 13px;
+  left: 17%;
+  background: var(--orange);
+}
+
+.node-offer {
+  right: 12%;
+  top: 24px;
+  background: var(--green);
+}
+
+.node-trade {
+  bottom: 18px;
+  left: 50%;
+  background: var(--blue);
+  --node-transform: translateX(-50%);
+}
+
+.motion-card {
+  position: relative;
+  z-index: 2;
+  width: min(250px, 74vw);
+  padding: 1rem;
+  border: 1px solid rgba(217, 227, 240, 0.95);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow);
+}
+
+.motion-card::after {
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  content: "";
+  border-radius: 8px;
+  background: linear-gradient(120deg, rgba(245, 130, 0, 0.24), rgba(47, 156, 66, 0.22), rgba(23, 63, 143, 0.2));
+  filter: blur(18px);
+  opacity: 0.85;
+}
+
+.motion-card img {
+  width: min(180px, 70%);
+  margin: 0 auto 0.4rem;
+}
+
+.motion-status {
+  margin-bottom: 0.2rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.motion-card strong {
+  display: block;
+  color: var(--blue-dark);
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.motion-controls {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.35rem;
+}
+
+.motion-control {
+  min-height: 32px;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(217, 227, 240, 0.95);
+  border-radius: 8px;
+  color: var(--blue-dark);
+  background: rgba(255, 255, 255, 0.88);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.motion-control.is-active,
+.motion-control:hover {
+  color: #ffffff;
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.trade-motion[data-mode="Sell"] .motion-card strong {
+  color: var(--orange-dark);
+}
+
+.trade-motion[data-mode="Offer"] .motion-card strong {
+  color: var(--green);
+}
+
+.trade-motion[data-mode="Trade"] .motion-card strong {
+  color: var(--blue);
+}
+
+.trade-motion[data-mode="Sell"] .node-sell,
+.trade-motion[data-mode="Offer"] .node-offer,
+.trade-motion[data-mode="Trade"] .node-trade {
+  animation: nodePulse 1.2s ease-in-out infinite;
 }
 
 .value-strip {
@@ -395,7 +542,7 @@ h3 {
   }
 
   .hero {
-    min-height: 420px;
+    min-height: 480px;
   }
 
   .asset-card.wide {
@@ -432,5 +579,41 @@ h3 {
 
   .sale-panel {
     align-items: stretch;
+  }
+
+  .trade-motion {
+    min-height: 196px;
+  }
+
+  .motion-controls {
+    right: 50%;
+    bottom: -0.2rem;
+    transform: translateX(50%);
+  }
+}
+
+@keyframes ringSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nodePulse {
+  50% {
+    transform: var(--node-transform, none) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
